@@ -6,17 +6,28 @@ import org.junit.jupiter.api.Test;
 
 public class StateCensusAnalyserTest {
     private StateCensusAnalyser stateCensusAnalyser;
-    private String  path="C:\\Users\\dell\\IdeaProjects\\IndianStatesCensusAnalyser\\src\\main\\java\\com\\bridgelabz\\StateCensusAnalyser.java";
+    private String Correctpath = "C:\\Users\\dell\\IdeaProjects\\IndianStatesCensusAnalyser\\IndiaStateCensusData";
+    private String Wrongpath = "C:\\Users\\dell\\IdeaProjects\\IndianStatesCensusAnalyser\\src\\test\\java\\com\\bridgelabz\\StateCensusAnalyserTest.java";
 
     @BeforeAll
     public void setup() {
-        stateCensusAnalyser=new StateCensusAnalyser();
+        stateCensusAnalyser = new StateCensusAnalyser();
     }
 
     @Test
-    void checkDataIsLoaded() {
-        int size=stateCensusAnalyser.loadData(path);
+    void checkDataIsLoaded() throws CustomException {
+        int size = stateCensusAnalyser.loadData(Correctpath);
         System.out.println(size);
-        Assertions.assertEquals(30,size);
+        Assertions.assertEquals(28, size);
+    }
+
+    @Test
+    public void given_Wrong_file_path_should_return_custom_exception() throws CustomException {
+        try {
+            stateCensusAnalyser.loadData(Wrongpath);
+        }
+        catch (CustomException e) {
+            throw new CustomException("Wrong path");
+        }
     }
 }
