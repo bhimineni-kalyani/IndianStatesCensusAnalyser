@@ -8,37 +8,33 @@ import java.io.Reader;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Iterator;
+import java.util.stream.StreamSupport;
 
 public class StateCensusAnalyser {
-    public int loadData(String path) throws CustomException {
+        public int loadData(String path) throws CustomException {
             if(path.contains(".csv")) {
                 int numofEnteries = 0;
                 try {
-                    Reader reader= Files.newBufferedReader(Paths.get(path));
+                    Reader reader = Files.newBufferedReader(Paths.get(path));
                     CsvToBean<CSVStateCensusAnalyser> csvToBean = new CsvToBeanBuilder(reader)
                             .withType(CSVStateCensusAnalyser.class)
                             .withIgnoreLeadingWhiteSpace(true)
                             .build();
 
-                    Iterator<CSVStateCensusAnalyser> csvStateCensusAnalyserIterator=csvToBean.iterator();
+                    Iterator<CSVStateCensusAnalyser> csvStateCensusAnalyserIterator = csvToBean.iterator();
 
-                        while(csvStateCensusAnalyserIterator.hasNext()) {
-                            CSVStateCensusAnalyser censusAnalyser=csvStateCensusAnalyserIterator.next();
-                            System.out.println("Name : " + censusAnalyser.getState());
-                            System.out.println("Email : " + censusAnalyser.getPopulation());
-                            System.out.println("PhoneNo : " + censusAnalyser.getAreaInSqKm());
-                            System.out.println("Country : " + censusAnalyser.getDensityPerSqKm());
-                            System.out.println("===");
-                            numofEnteries++;
-                        }
+                    Iterable<CSVStateCensusAnalyser> iterator=()  -> csvStateCensusAnalyserIterator;
+                    return (int) StreamSupport.stream(iterator.spliterator(), false).count();
                 }
                 catch (IOException e) {
-                        throw new CustomException(e.getMessage(), CustomException.ExceptionType.Wrongfile);
+                    throw new CustomException(e.getMessage(), CustomException.ExceptionType.Wrongfile);
                 }
-                return numofEnteries;
+                catch (RuntimeException e) {
+                    throw new CustomException(e.getMessage(), CustomException.ExceptionType.Wrongfiledelimiter);
+                }
             }
             else {
-                throw new CustomException("Wrongfiletype", CustomException.ExceptionType.Wrongfiletype);
+                throw new CustomException("Wrongfiletype it should be .csv type", CustomException.ExceptionType.Wrongfiletype);
             }
-    }
+        }
 }
