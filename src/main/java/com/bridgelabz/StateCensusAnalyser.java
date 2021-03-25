@@ -22,7 +22,7 @@ public class StateCensusAnalyser {
                         .build();
                 Iterator<CSVStateCensusAnalyser> csvStateCensusAnalyserIterator = csvToBean.iterator();
                 Iterable<CSVStateCensusAnalyser> iterator = () -> csvStateCensusAnalyserIterator;
-                return (int) StreamSupport.stream(iterator.spliterator(), false).count();
+                return(int) StreamSupport.stream(iterator.spliterator(), false).count();
             }
             catch (IOException e) {
                 throw new CustomException(e.getMessage(), CustomException.ExceptionType.Wrongfile);

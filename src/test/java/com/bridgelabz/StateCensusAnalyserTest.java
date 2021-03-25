@@ -105,4 +105,15 @@ public class StateCensusAnalyserTest {
             Assertions.assertEquals(e.type, CustomException.ExceptionType.Wrongfiledelimiter);
         }
     }
+
+    @Test
+    public void given_wrong_header_should_throw_custom_exceptio() throws CustomException{
+        try {
+            censusAnalyser.loadStateCensusData(IndianStateCensusDataCorrectpath);
+        }
+        catch (CustomException e) {
+            System.out.println(e.getMessage());
+            Assertions.assertEquals(e.type, CustomException.ExceptionType.Wrongheader);
+        }
+    }
 }
