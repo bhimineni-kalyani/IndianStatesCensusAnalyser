@@ -37,7 +37,7 @@ public class StateCensusAnalyser {
             }
         }
 
-        public int loadStateCodeData(String) throws CustomException {
+        public int loadStateCodeData(String path) throws CustomException {
             int numofEnteries = 0;
             try {
                 Reader reader = Files.newBufferedReader(Paths.get(path));
