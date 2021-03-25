@@ -46,12 +46,12 @@ public class StateCensusAnalyser {
                         .withIgnoreLeadingWhiteSpace(true)
                         .build();
                 Iterator<CsvStateCodeAnalyser> csvStateCensusAnalyserIterator = csvToBean.iterator();
-                while (csvStateCensusAnalyserIterator.hasNext()) {
+                while(csvStateCensusAnalyserIterator.hasNext()) {
                     CsvStateCodeAnalyser censusAnalyser = csvStateCensusAnalyserIterator.next();
                     numofEnteries++;
                 }
             }
-            catch (Exception e) {
+            catch(Exception e) {
                 throw new CustomException(e.getMessage(), CustomException.ExceptionType.Wrongfile);
             }
             return numofEnteries;

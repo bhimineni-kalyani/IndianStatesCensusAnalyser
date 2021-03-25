@@ -6,7 +6,7 @@ import org.junit.jupiter.api.Test;
 
 public class StateCensusAnalyserTest {
     private StateCensusAnalyser censusAnalyser;
-    private String IndianStateCensusDataCorrectpath  = "C:\\Users\\dell\\IdeaProjects\\IndianStatesCensusAnalyser\\IndiaStateCensusData";
+    private String IndianStateCensusDataCorrectpath = "C:\\Users\\dell\\IdeaProjects\\IndianStatesCensusAnalyser\\IndiaStateCensusData";
     private String Correctpath = "C:\\Users\\dell\\IdeaProjects\\IndianStatesCensusAnalyser\\IndiaStateCensusData";
     private String Wrongpath = "C:\\Users\\dell\\IdeaProjects\\IndianStatesCensusAnalyser\\src\\test\\java\\com\\bridgelabz\\StateCensusAnalyserTest.java";
     private String Wrongfiletype = "C:\\Users\\dell\\IdeaProjects\\IndianStatesCensusAnalyser\\src\\test\\java\\com\\bridgelabz\\StateCensusAnalyserTest.java";
@@ -30,7 +30,7 @@ public class StateCensusAnalyserTest {
         }
         catch (CustomException e) {
             System.out.println(e.getMessage());
-            Assertions.assertEquals(CustomException.ExceptionType.Wrongfile,e.type);
+            Assertions.assertEquals(CustomException.ExceptionType.Wrongfile, e.type);
         }
     }
 
@@ -41,7 +41,7 @@ public class StateCensusAnalyserTest {
         }
         catch (CustomException e) {
             System.out.println(e.getMessage());
-            Assertions.assertEquals(e.type,CustomException.ExceptionType.Wrongfiletype);
+            Assertions.assertEquals(e.type, CustomException.ExceptionType.Wrongfiletype);
         }
     }
 
@@ -80,18 +80,29 @@ public class StateCensusAnalyserTest {
         }
         catch (CustomException e) {
             System.out.println(e.getMessage());
-            Assertions.assertEquals(CustomException.ExceptionType.Wrongfile,e.type);
+            Assertions.assertEquals(CustomException.ExceptionType.Wrongfile, e.type);
         }
     }
 
     @Test
     public void given_wrong_file_type_throw_custom_exception() throws CustomException {
-        try{
+        try {
             censusAnalyser.loadStateCodeData(Wrongfiletype);
         }
         catch (CustomException e) {
             System.out.println(e.getMessage());
-            Assertions.assertEquals(e.type,CustomException.ExceptionType.Wrongfiletype);
+            Assertions.assertEquals(e.type, CustomException.ExceptionType.Wrongfiletype);
+        }
+    }
+
+    @Test
+    public void given_wrong_delimiter_should_throw_exception() throws CustomException {
+        try {
+            censusAnalyser.loadStateCodeData(IndianStateCodeCorrectpath);
+        }
+        catch (CustomException e) {
+            System.out.println(e.getMessage());
+            Assertions.assertEquals(e.type, CustomException.ExceptionType.Wrongfiledelimiter);
         }
     }
 }
