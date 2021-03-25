@@ -19,14 +19,14 @@ public class StateCensusAnalyserTest {
 
     @Test
     public void to_check_if_data_is_loaded() throws CustomException {
-        int numofEnteries = censusAnalyser.loadData(IndianStateCensusDataCorrectpath);
+        int numofEnteries = censusAnalyser.loadStateCensusData(IndianStateCensusDataCorrectpath);
         Assertions.assertEquals(9, numofEnteries);
     }
 
     @Test
     public void given_Wrong_file_path_should_return_custom_exception() throws CustomException {
         try {
-            censusAnalyser.loadData(Wrongpath);
+            censusAnalyser.loadStateCensusData(Wrongpath);
         }
         catch (CustomException e) {
             System.out.println(e.getMessage());
@@ -37,7 +37,7 @@ public class StateCensusAnalyserTest {
     @Test
     public void given_wrong_file_type_should_throw_custom_exception() throws CustomException {
         try {
-            censusAnalyser.loadData(Wrongfiletype);
+            censusAnalyser.loadStateCensusData(Wrongfiletype);
         }
         catch (CustomException e) {
             System.out.println(e.getMessage());
@@ -48,7 +48,7 @@ public class StateCensusAnalyserTest {
     @Test
     public void given_wrong_delimiter_should_throw_custom_exception() {
         try {
-            censusAnalyser.loadData(IndianStateCensusDataCorrectpath);
+            censusAnalyser.loadStateCensusData(IndianStateCensusDataCorrectpath);
         }
         catch (CustomException e) {
             System.out.println(e.getMessage());
@@ -59,7 +59,7 @@ public class StateCensusAnalyserTest {
     @Test
     public void given_wrong_header_should_throw_custom_exception() {
         try {
-            censusAnalyser.loadData(IndianStateCodeCorrectpath);
+            censusAnalyser.loadStateCensusData(IndianStateCodeCorrectpath);
         }
         catch (CustomException e) {
             System.out.println(e.getMessage());
@@ -69,7 +69,18 @@ public class StateCensusAnalyserTest {
 
     @Test
     public void given_correct_path_shold_return_count() throws CustomException {
-        int numofEnteries = censusAnalyser.loadData(IndianStateCodeCorrectpath);
+        int numofEnteries = censusAnalyser.loadStateCodeData(IndianStateCodeCorrectpath);
         Assertions.assertEquals(18, numofEnteries);
+    }
+
+    @Test
+    public void given_wrong_path_should_return_custom_exception() throws CustomException {
+        try {
+            censusAnalyser.loadStateCodeData(Wrongpath);
+        }
+        catch (CustomException e) {
+            System.out.println(e.getMessage());
+            Assertions.assertEquals(CustomException.ExceptionType.Wrongfile,e.type);
+        }
     }
 }

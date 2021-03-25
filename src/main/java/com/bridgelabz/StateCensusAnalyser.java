@@ -11,7 +11,7 @@ import java.util.Iterator;
 import java.util.stream.StreamSupport;
 
 public class StateCensusAnalyser {
-    public int loadData(String path) throws CustomException {
+    public int loadStateCensusData(String path) throws CustomException {
         if (path.contains(".csv")) {
             int numofEnteries = 0;
             try {
@@ -37,7 +37,7 @@ public class StateCensusAnalyser {
             }
         }
 
-        public int loadStateCodeData(String path) throws CustomException {
+        public int loadStateCodeData(String) throws CustomException {
             int numofEnteries = 0;
             try {
                 Reader reader = Files.newBufferedReader(Paths.get(path));
@@ -52,7 +52,7 @@ public class StateCensusAnalyser {
                 }
             }
             catch (Exception e) {
-                System.out.println(e.getMessage());
+                throw new CustomException(e.getMessage(), CustomException.ExceptionType.Wrongfile);
             }
             return numofEnteries;
         }
