@@ -12,7 +12,7 @@ import java.util.stream.StreamSupport;
 
 public class StateCensusAnalyser {
     public int loadData(String path) throws CustomException {
-        if(path.contains(".csv")) {
+        if (path.contains(".csv")) {
             int numofEnteries = 0;
             try {
                 Reader reader = Files.newBufferedReader(Paths.get(path));
@@ -20,19 +20,41 @@ public class StateCensusAnalyser {
                         .withType(CSVStateCensusAnalyser.class)
                         .withIgnoreLeadingWhiteSpace(true)
                         .build();
-                Iterator<CSVStateCensusAnalyser> csvStateCensusAnalyserIterator=csvToBean.iterator();
-                Iterable<CSVStateCensusAnalyser> iterator=()  -> csvStateCensusAnalyserIterator;
+                Iterator<CSVStateCensusAnalyser> csvStateCensusAnalyserIterator = csvToBean.iterator();
+                Iterable<CSVStateCensusAnalyser> iterator = () -> csvStateCensusAnalyserIterator;
                 return (int) StreamSupport.stream(iterator.spliterator(), false).count();
             }
             catch (IOException e) {
                 throw new CustomException(e.getMessage(), CustomException.ExceptionType.Wrongfile);
             }
             catch (RuntimeException e) {
-                throw new CustomException(e.getMessage(), CustomException.ExceptionType.Wrongfiledelimiter);
+                if (e.getMessage().contains("CSV header")) {
+                    throw new CustomException(e.getMessage(), CustomException.ExceptionType.Wrongfiledelimiter);
+                }
+            }
+            else {
+                throw new CustomException("Wrongfiletype", CustomException.ExceptionType.Wrongfiletype);
             }
         }
-        else {
-            throw new CustomException("Wrongfiletype", CustomException.ExceptionType.Wrongfiletype);
+
+        public int loadStateCodeData(String path) throws CustomException {
+            int numofEnteries = 0;
+            try {
+                Reader reader = Files.newBufferedReader(Paths.get(path));
+                CsvToBean<CsvStateCodeAnalyser> csvToBean = new CsvToBeanBuilder(reader)
+                        .withType(CsvStateCodeAnalyser.class)
+                        .withIgnoreLeadingWhiteSpace(true)
+                        .build();
+                Iterator<CsvStateCodeAnalyser> csvStateCensusAnalyserIterator = csvToBean.iterator();
+                while (csvStateCensusAnalyserIterator.hasNext()) {
+                    CsvStateCodeAnalyser censusAnalyser = csvStateCensusAnalyserIterator.next();
+                    numofEnteries++;
+                }
+            }
+            catch (Exception e) {
+                System.out.println(e.getMessage());
+            }
+            return numofEnteries;
         }
     }
 }
